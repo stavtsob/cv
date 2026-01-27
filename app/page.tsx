@@ -220,9 +220,6 @@ export default function Home() {
               <IconMapPin className="h-4 w-4" />
               Thessaloniki, Greece
             </span>
-            <span className="px-4 py-2 rounded-full bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 text-green-400 text-sm font-medium">
-              ✓ Available for opportunities
-            </span>
           </motion.div>
           
           <motion.h1 
