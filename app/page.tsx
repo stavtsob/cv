@@ -216,7 +216,7 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="flex items-center justify-center gap-2 mb-6"
           >
-            <span className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-400 text-sm font-medium flex items-center gap-2">
+            <span className="px-4 py-2 rounded-full bg-linear-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-400 text-sm font-medium flex items-center gap-2">
               <IconMapPin className="h-4 w-4" />
               Thessaloniki, Greece
             </span>
@@ -226,7 +226,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-200 to-neutral-400 pb-4"
+            className="text-5xl md:text-8xl font-bold bg-clip-text text-transparent bg-linear-to-b from-white via-neutral-200 to-neutral-400 pb-4"
           >
             Stavros Tsompanidis
           </motion.h1>
