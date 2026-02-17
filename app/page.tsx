@@ -33,24 +33,34 @@ import {
   IconDownload,
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Screenshot Image Component
 function ScreenshotImage({ url, name, localImage }: { url: string; name: string; localImage?: string }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [useAPI, setUseAPI] = useState(false);
+  const [isProduction, setIsProduction] = useState(false);
 
-  const imageSrc = useAPI || !localImage
-    ? `https://www.screenshotapi.net/api/v1/screenshot?url=${url}&token=43e09a02-c5a5-4c4f-a2c6-e4c8e0e5e4d5&width=600&height=400`
+  // Only check production status on client after hydration
+  useEffect(() => {
+    setIsProduction(window.location.hostname !== "localhost");
+  }, []);
+
+  const githubRawUrl = localImage && isProduction
+    ? `https://raw.githubusercontent.com/stavtsob/cv/refs/heads/main/public${localImage}`
     : localImage;
+
+  const imageSrc = useAPI || !githubRawUrl
+    ? `https://www.screenshotapi.net/api/v1/screenshot?url=${url}&token=43e09a02-c5a5-4c4f-a2c6-e4c8e0e5e4d5&width=600&height=400`
+    : githubRawUrl;
 
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
 
   const handleImageError = () => {
-    if (!useAPI && localImage) {
-      // If local image failed, try API
+    if (!useAPI && githubRawUrl) {
+      // If GitHub/local image failed, try API
       setUseAPI(true);
     }
   };
