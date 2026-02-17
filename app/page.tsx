@@ -33,6 +33,51 @@ import {
   IconDownload,
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
+import { useState } from "react";
+
+// Screenshot Image Component
+function ScreenshotImage({ url, name, localImage }: { url: string; name: string; localImage?: string }) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [useAPI, setUseAPI] = useState(false);
+
+  const imageSrc = useAPI || !localImage
+    ? `https://www.screenshotapi.net/api/v1/screenshot?url=${url}&token=43e09a02-c5a5-4c4f-a2c6-e4c8e0e5e4d5&width=600&height=400`
+    : localImage;
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const handleImageError = () => {
+    if (!useAPI && localImage) {
+      // If local image failed, try API
+      setUseAPI(true);
+    }
+  };
+
+  return (
+    <>
+      <img
+        key={imageSrc}
+        src={imageSrc}
+        alt={name}
+        className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${
+          imageLoaded ? "opacity-100" : "opacity-0"
+        }`}
+        onLoad={handleImageLoad}
+        onError={handleImageError}
+      />
+      {!imageLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-neutral-700 to-neutral-900">
+          <div className="text-center">
+            <div className="text-4xl mb-2">🌐</div>
+            <div className="text-neutral-400 text-sm font-medium">Visit Site</div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
 
 export default function Home() {
   const words = ["FullStack Developer", "Software Engineer", "Solution Architect"];
@@ -571,6 +616,78 @@ export default function Home() {
         <Timeline data={timelineData} />
       </section>
 
+      {/* Case Studies Section */}
+      <section className="py-20 px-4 bg-neutral-950">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
+              Case Studies
+            </h2>
+            <p className="text-neutral-400 max-w-2xl mx-auto">
+              Client projects showcasing full-stack development, modern design, and strategic solutions that drive business growth.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { name: "Πράξη Αγάπης", url: "https://praxiagapis.gr", domain: "praxiagapis.gr", image: "/case-studies/praxi_agapis.jpg" },
+              { name: "Φειδίας Κτηματομεσιτική", url: "https://feidias.gr", domain: "feidias.gr", image: "/case-studies/feidias.png" },
+              { name: "Emina Palms", url: "https://emina-palms.gr", domain: "emina-palms.gr", image: "/case-studies/emina-palms.png" },
+              { name: "Humannera Stage25", url: "https://stage25.humannera.org", domain: "stage25.humannera.org", image: "/case-studies/stage25.png" },
+              { name: "ΤΥΡΟΚΟΜΙΚΑ ΝΤΑΝΤΟΣ", url: "https://ntantos.gr", domain: "ntantos.gr", image: "/case-studies/ntantos.png" },
+              { name: "SWT Barber", url: "https://swtbarber.gr", domain: "swtbarber.gr", image: "/case-studies/swtbarber.png" },
+              { name: "Hue Nails", url: "https://huenails.gr", domain: "huenails.gr", image: "/case-studies/huenails.png" },
+              { name: "Texidos Safety", url: "https://texidos-safety.gr", domain: "texidos-safety.gr", image: "/case-studies/texidos-safety.png" },
+              { name: "Energoon", url: "https://energoon.gr", domain: "energoon.gr", image: "/case-studies/energoon.png" },
+              { name: "Olgaforall.gr", url: "https://olgaforall.gr", domain: "olgaforall.gr", image: "/case-studies/olgaforall.png" },
+            ].map((project, index) => (
+              <motion.a
+                key={project.url}
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                viewport={{ once: true }}
+                className="group relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900 hover:border-neutral-700 transition-all duration-500 hover:-translate-y-1 cursor-pointer"
+              >
+                {/* Background Gradient on Hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                {/* Showcase Image Container */}
+                <div className="relative h-48 w-full bg-gradient-to-br from-neutral-800 to-neutral-900 overflow-hidden flex items-center justify-center">
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent" />
+                  <ScreenshotImage url={project.url} name={project.name} localImage={project.image} />
+                </div>
+
+                {/* Content */}
+                <div className="relative z-10 p-4">
+                  <h3 className="text-lg font-bold text-white mb-1 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 transition-all duration-300">
+                    {project.name}
+                  </h3>
+                  <p className="text-neutral-400 text-xs font-mono truncate">
+                    {project.domain}
+                  </p>
+                  <div className="mt-3 pt-3 border-t border-neutral-800">
+                    <div className="flex items-center text-neutral-400 group-hover:text-neutral-300 transition-colors text-xs font-medium">
+                      <span>View Project</span>
+                      <span className="ml-2 inline-block group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Side Projects Section */}
       <section className="py-20 px-4 bg-neutral-950">
         <div className="max-w-7xl mx-auto">
@@ -618,36 +735,6 @@ export default function Home() {
                   </span>
                   <span className="px-3 py-1.5 rounded-full bg-purple-900/30 text-purple-300 text-xs font-medium">
                     Restaurant Tech
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 p-6 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
-            >
-              <a href="https://olgaforall.gr" target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-20" />
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative z-10">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center mb-4">
-                  <span className="text-white text-xl">💬</span>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">
-                  Olgaforall.gr
-                </h3>
-                <p className="text-neutral-400 text-sm mb-4">
-                  A real-time chat application created for &quot;Πράξη Αγάπης&quot; - enabling instant communication for charitable causes.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1.5 rounded-full bg-pink-900/30 text-pink-300 text-xs font-medium">
-                    Real-time
-                  </span>
-                  <span className="px-3 py-1.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium">
-                    Social Good
                   </span>
                 </div>
               </div>
