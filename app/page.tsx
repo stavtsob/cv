@@ -321,8 +321,9 @@ export default function Home() {
             </Button>
             <Button
               as="a"
-              href="/docs/Stavros%20Tsompanidis%202026.pdf"
-              download
+              href="https://raw.githubusercontent.com/stavtsob/cv/refs/heads/main/docs/Stavros%20Tsompanidis%202026.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               containerClassName="h-14 w-48"
               borderClassName="bg-[radial-gradient(#10b981_40%,transparent_60%)]"
               className="font-semibold flex items-center gap-2"
