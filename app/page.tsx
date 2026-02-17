@@ -112,7 +112,7 @@ export default function Home() {
     {
       title: "LinkedIn",
       icon: <IconBrandLinkedin className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: "https://linkedin.com/in/stavtsob",
+      href: "https://www.linkedin.com/in/stavros-tsompanidis-249362143/",
     },
     {
       title: "Email",
@@ -846,7 +846,7 @@ export default function Home() {
             </Button>
             <Button
               as="a"
-              href="https://linkedin.com/in/stavtsob"
+              href="https://www.linkedin.com/in/stavros-tsompanidis-249362143/"
               target="_blank"
               containerClassName="h-14 w-14"
               borderClassName="bg-[radial-gradient(#0077b5_40%,transparent_60%)]"
